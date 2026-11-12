@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+import pymysql
+pymysql.install_as_MySQLdb()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -76,9 +80,9 @@ WSGI_APPLICATION = 'tienda_musica.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bluesstore',
-        'USER': 'root',
-        'PASSWORD': 'tu_clave',
+        'NAME': 'instrumentos_db',
+        'USER': 'Erwin',
+        'PASSWORD': 'Luchi123',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {'charset': 'utf8mb4'},
