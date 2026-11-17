@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ instrumento.nombre }} | Blues Store{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 overflow-hidden">
+            <div class="instrumento-icono">
+                <i class="bi bi-music-note-beamed"></i>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+                    <div>
+                        <h2 class="mb-2">{{ instrumento.nombre }}</h2>
+                        <span class="badge text-bg-info">{{ instrumento.categoria.nombre }}</span>
+                    </div>
+                    {% if instrumento.disponible %}
+                        <span class="badge text-bg-success">Disponible</span>
+                    {% else %}
+                        <span class="badge text-bg-danger">No disponible</span>
+                    {% endif %}
+                </div>
+
+                <p class="mb-4">{{ instrumento.descripcion|default:"Sin descripción." }}</p>
+
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Precio</span>
+                        <strong class="text-accent">${{ instrumento.precio|floatformat:0 }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Fecha de ingreso</span>
+                        <span>{{ instrumento.fecha_ingreso|date:"d/m/Y" }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Disponibilidad</span>
+                        {% if instrumento.disponible %}
+                            <span class="text-success fw-semibold">Disponible</span>
+                        {% else %}
+                            <span class="text-danger fw-semibold">No disponible</span>
+                        {% endif %}
+                    </li>
+                </ul>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{% url 'instrumentos:lista' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Volver al catálogo
+                    </a>
+                    <a href="{% url 'instrumentos:editar' instrumento.pk %}" class="btn btn-warning">
+                        <i class="bi bi-pencil me-1"></i>Editar
+                    </a>
+                    <a href="{% url 'instrumentos:eliminar' instrumento.pk %}" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Eliminar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

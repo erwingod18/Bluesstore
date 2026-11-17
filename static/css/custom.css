@@ -1,0 +1,48 @@
+:root {
+    --bs-primary: #1E3A8A;
+    --bs-secondary: #D97706;
+    --bs-info: #0891B2;
+    --bs-body-bg: #F8FAFC;
+    --bs-card-bg: #FFFFFF;
+    --bs-success: #16A34A;
+    --bs-danger: #DC2626;
+    --bs-warning: #ffc107;
+    --bs-font-sans-serif: 'Inter', sans-serif;
+    --bs-font-serif: 'Merriweather', serif;
+}
+
+body {
+    background-color: var(--bs-body-bg);
+    font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.card-title,
+.instrumento-titulo {
+    font-family: 'Merriweather', serif;
+}
+
+.instrumento-icono {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--bs-primary) 0%, #3a5bb2 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(30, 58, 138, 0.12);
+}
+
+.text-accent {
+    color: var(--bs-secondary);
+}
