@@ -1,6 +1,6 @@
 from django import forms
 from .models import Instrumento
-
+from django.contrib.auth.forms import AuthenticationForm
 
 class InstrumentoForm(forms.ModelForm):
     class Meta:
@@ -18,3 +18,9 @@ class InstrumentoForm(forms.ModelForm):
             ),
             'disponible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'

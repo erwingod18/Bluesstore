@@ -47,12 +47,14 @@
                     <a href="{% url 'instrumentos:lista' %}" class="btn btn-secondary">
                         <i class="bi bi-arrow-left me-1"></i>Volver al catálogo
                     </a>
-                    <a href="{% url 'instrumentos:editar' instrumento.pk %}" class="btn btn-warning">
-                        <i class="bi bi-pencil me-1"></i>Editar
-                    </a>
-                    <a href="{% url 'instrumentos:eliminar' instrumento.pk %}" class="btn btn-danger">
-                        <i class="bi bi-trash me-1"></i>Eliminar
-                    </a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'instrumentos:editar' instrumento.pk %}" class="btn btn-warning">
+                            <i class="bi bi-pencil me-1"></i>Editar
+                        </a>
+                        <a href="{% url 'instrumentos:eliminar' instrumento.pk %}" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Eliminar
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

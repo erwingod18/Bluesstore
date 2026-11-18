@@ -1,14 +1,15 @@
-from django.shortcuts import render
-from .forms import InstrumentoForm
-from .models import Instrumento
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView,
 )
 
+from .forms import InstrumentoForm
+from .models import Instrumento
 
 
-# Paso 2: ListView
+# ListView y DetailView quedan públicos (catálogo abierto).
 class InstrumentoListView(ListView):
     model = Instrumento
     template_name = 'instrumentos/instrumento_list.html'
@@ -19,9 +20,8 @@ class InstrumentoListView(ListView):
         return Instrumento.objects.select_related('categoria').order_by('nombre')
 
 
-# Paso 3: DetailView
 class InstrumentoDetailView(DetailView):
-    # Usa get_object_or_404 internamente: pk inexistente -> 404 automático.
+    # pk inexistente -> 404 automático.
     model = Instrumento
     template_name = 'instrumentos/instrumento_detail.html'
     context_object_name = 'instrumento'
@@ -30,25 +30,29 @@ class InstrumentoDetailView(DetailView):
         return Instrumento.objects.select_related('categoria')
 
 
-# Paso 4: Create y Update
-class InstrumentoCreateView(CreateView):
+# Mutaciones: LoginRequiredMixin SIEMPRE a la izquierda (MRO).
+class InstrumentoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Instrumento
     form_class = InstrumentoForm
     template_name = 'instrumentos/instrumento_form.html'
     success_url = reverse_lazy('instrumentos:lista')
+    success_message = 'Instrumento "%(nombre)s" creado correctamente.'
 
 
-class InstrumentoUpdateView(UpdateView):
+class InstrumentoUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Instrumento
     form_class = InstrumentoForm
     template_name = 'instrumentos/instrumento_form.html'
     success_url = reverse_lazy('instrumentos:lista')
+    success_message = 'Instrumento "%(nombre)s" actualizado correctamente.'
 
 
-# Paso 5: Delete
-class InstrumentoDeleteView(DeleteView):
+class InstrumentoDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Instrumento
     template_name = 'instrumentos/instrumento_confirm_delete.html'
     context_object_name = 'instrumento'
     success_url = reverse_lazy('instrumentos:lista')
 
+    def get_success_message(self, cleaned_data):
+        # El form de borrado no tiene campos: se usa self.object en vez de %(nombre)s.
+        return f'Instrumento "{self.object.nombre}" eliminado correctamente.'
