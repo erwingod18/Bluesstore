@@ -1,57 +1,139 @@
 {% extends 'base.html' %}
 
-{% block title %}Catálogo | Blues Store{% endblock %}
+{% block title %}Catálogo | BluesStore{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h1 class="h2 mb-1">Catálogo</h1>
-        <p class="text-muted mb-0">Descubre nuestra selección de instrumentos.</p>
+
+<div class="container py-4">
+
+    <section class="catalog-hero d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4 mb-4">
+        <div>
+            <p class="text-uppercase small fw-bold mb-2">BluesStore · Instrumentos y accesorios</p>
+            <h1 class="fw-bold">Nuestro catálogo</h1>
+            <p class="mb-0">
+                Encuentra tu próximo instrumento musical.
+            </p>
+        </div>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'instrumentos:crear' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>
+            Agregar instrumento
+        </a>
+        {% endif %}
+    </section>
+
+    <!-- Catálogo -->
+    <div class="row g-4">
+
+        {% for instrumento in object_list %}
+
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+            <div class="card catalog-card h-100 shadow-sm border-0">
+
+                <!-- Imagen del instrumento -->
+                {% if instrumento.imagen %}
+                <img src="{{ instrumento.imagen.url }}" class="card-img-top catalog-product-image"
+                    alt="{{ instrumento.nombre }}">
+                {% else %}
+                <div class="catalog-image-placeholder" role="img" aria-label="Sin fotografía de {{ instrumento.nombre }}">
+                    <i class="bi bi-music-note-beamed" aria-hidden="true"></i>
+                    <span>Foto próximamente</span>
+                </div>
+                {% endif %}
+
+                <!-- Información -->
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold">
+                        {{ instrumento.nombre }}
+                    </h5>
+
+                    <p class="text-muted small mb-2">
+                        {{ instrumento.categoria.nombre }}
+                    </p>
+
+                    <p class="card-text text-secondary">
+                        {{ instrumento.descripcion|truncatewords:15 }}
+                    </p>
+
+                    <h5 class="text-primary fw-bold mt-auto">
+                        ${{ instrumento.precio|floatformat:0 }}
+                    </h5>
+
+                    {% if instrumento.disponible %}
+                    <span class="badge bg-success mb-3">
+                        Disponible
+                    </span>
+                    {% else %}
+                    <span class="badge bg-secondary mb-3">
+                        No disponible
+                    </span>
+                    {% endif %}
+
+                    <a href="{% url 'instrumentos:detalle' instrumento.pk %}" class="btn btn-outline-primary w-100">
+                        Ver detalles
+                    </a>
+
+                </div>
+
+                <!-- Acciones administrativas -->
+                {% if user.is_authenticated %}
+                <div class="card-footer bg-white border-0">
+
+                    <div class="d-flex gap-2">
+
+                        <a href="{% url 'instrumentos:editar' instrumento.pk %}"
+                            class="btn btn-warning btn-sm flex-fill">
+                            <i class="bi bi-pencil"></i>
+                            Editar
+                        </a>
+
+                        <a href="{% url 'instrumentos:eliminar' instrumento.pk %}"
+                            class="btn btn-danger btn-sm flex-fill">
+                            <i class="bi bi-trash"></i>
+                            Eliminar
+                        </a>
+
+                    </div>
+
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                Todavía no hay instrumentos registrados.
+            </div>
+        </div>
+
+        {% endfor %}
+
     </div>
+
+    <details class="catalog-credits mt-5">
+        <summary class="small fw-semibold">Créditos y licencias de las imágenes añadidas</summary>
+        <ul class="small mt-3 mb-0">
+            <li>Armónica: <a href="https://commons.wikimedia.org/wiki/File:Hohner_Band_Harmonica..jpg" target="_blank" rel="noopener noreferrer">zoë biggs</a>, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a>.</li>
+            <li>Bajo eléctrico: <a href="https://commons.wikimedia.org/wiki/File:Kingston_Bass_Guitar.jpg" target="_blank" rel="noopener noreferrer">L. Walter</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</li>
+            <li>Batería electrónica: <a href="https://commons.wikimedia.org/wiki/File:Electronic_drum_kit_Roland.jpg" target="_blank" rel="noopener noreferrer">Rob DiCaterino</a>, <a href="https://creativecommons.org/licenses/by-sa/2.5/" target="_blank" rel="noopener noreferrer">CC BY-SA 2.5</a>.</li>
+            <li>Cajón peruano: <a href="https://commons.wikimedia.org/wiki/File:Cajon_Peruano_2.png" target="_blank" rel="noopener noreferrer">Huamaniguitars</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</li>
+            <li>Bongó: <a href="https://commons.wikimedia.org/wiki/File:Bongo_drums_in_GOLD_restaurant,_Cape_Town.jpg" target="_blank" rel="noopener noreferrer">Srishti Sethi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</li>
+            <li>Cuerdas de guitarra: <a href="https://commons.wikimedia.org/wiki/File:Guitar_%26_Bass_strings_by_Dunlop.jpg" target="_blank" rel="noopener noreferrer">Andrew King</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 2.0</a>.</li>
+            <li>Uñetas: <a href="https://commons.wikimedia.org/wiki/File:17_Assorted_Guitar_Picks.jpg" target="_blank" rel="noopener noreferrer">Urban Versis 32</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</li>
+            <li>Flauta traversa: <a href="https://commons.wikimedia.org/wiki/File:Western_concert_flute_(Yamaha).jpg" target="_blank" rel="noopener noreferrer">Petar Milošević</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</li>
+            <li>Saxofón: <a href="https://commons.wikimedia.org/wiki/File:Yamaha_YAS-25_Alto_Saxophone_20080502.jpg" target="_blank" rel="noopener noreferrer">TR001</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.</li>
+            <li>Ukelele: <a href="https://commons.wikimedia.org/wiki/File:Kala_Makala_Soprano_Ukulele_MK-SD.jpg" target="_blank" rel="noopener noreferrer">John Clift</a>, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a>.</li>
+            <li>Violín: <a href="https://commons.wikimedia.org/wiki/File:Violin_VL100.png" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC0</a>.</li>
+        </ul>
+    </details>
+
 </div>
 
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    {% for instrumento in instrumentos %}
-    <div class="col">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="instrumento-icono">
-                <i class="bi bi-music-note-beamed"></i>
-            </div>
-            <div class="card-body">
-                <div class="mb-2">
-                    <span class="badge text-bg-info">{{ instrumento.categoria.nombre }}</span>
-                </div>
-                <h5 class="card-title mb-2">{{ instrumento.nombre }}</h5>
-                <p class="text-accent fw-bold mb-3">${{ instrumento.precio|floatformat:0 }}</p>
-                {% if instrumento.disponible %}
-                    <span class="badge text-bg-success">Disponible</span>
-                {% else %}
-                    <span class="badge text-bg-danger">No disponible</span>
-                {% endif %}
-            </div>
-            <div class="card-footer bg-transparent border-0 pt-0">
-                <div class="d-flex gap-2">
-                    <a href="{% url 'instrumentos:detalle' instrumento.pk %}" class="btn btn-primary btn-sm">
-                        <i class="bi bi-eye me-1"></i>Ver
-                    </a>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'instrumentos:editar' instrumento.pk %}" class="btn btn-warning btn-sm">
-                            <i class="bi bi-pencil me-1"></i>Editar
-                        </a>
-                        <a href="{% url 'instrumentos:eliminar' instrumento.pk %}" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash me-1"></i>Eliminar
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info mb-0" role="alert">
-            Todavía no hay instrumentos en el catálogo.
-        </div>
-    </div>
-    {% endfor %}
-</div>
 {% endblock %}

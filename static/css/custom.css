@@ -1,9 +1,9 @@
 :root {
-    --bs-primary: #1E3A8A;
-    --bs-secondary: #D97706;
-    --bs-info: #0891B2;
-    --bs-body-bg: #F8FAFC;
-    --bs-card-bg: #FFFFFF;
+    --bs-primary: #203b5a;
+    --bs-secondary: #c47b36;
+    --bs-info: #397c88;
+    --bs-body-bg: #f3eee5;
+    --bs-card-bg: #fffdf8;
     --bs-success: #16A34A;
     --bs-danger: #DC2626;
     --bs-warning: #ffc107;
@@ -12,8 +12,12 @@
 }
 
 body {
-    background-color: var(--bs-body-bg);
+    background:
+        radial-gradient(ellipse at 12% 8%, rgba(196, 123, 54, 0.11), transparent 34rem),
+        radial-gradient(ellipse at 92% 38%, rgba(32, 59, 90, 0.08), transparent 38rem),
+        var(--bs-body-bg);
     font-family: 'Inter', sans-serif;
+    color: #263545;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -21,6 +25,80 @@ h1, h2, h3, h4, h5, h6,
 .card-title,
 .instrumento-titulo {
     font-family: 'Merriweather', serif;
+}
+
+.catalog-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    border-radius: 1.25rem;
+    color: #fffdf8;
+    background:
+        radial-gradient(ellipse at 85% 20%, rgba(216, 155, 87, 0.32), transparent 25rem),
+        linear-gradient(120deg, #172c43, #294967 70%, #36576c);
+    box-shadow: 0 1rem 2.5rem rgba(23, 44, 67, 0.16);
+}
+
+.catalog-hero h1 {
+    color: #fffdf8;
+}
+
+.catalog-hero p {
+    max-width: 34rem;
+    color: rgba(255, 253, 248, 0.78);
+}
+
+.catalog-hero .btn-primary {
+    border-color: #d39a59;
+    background-color: #d39a59;
+    color: #172c43;
+    font-weight: 700;
+}
+
+.catalog-hero .btn-primary:hover {
+    border-color: #e2b77f;
+    background-color: #e2b77f;
+}
+
+.catalog-card {
+    overflow: hidden;
+    border-radius: 1rem;
+    background-color: var(--bs-card-bg);
+}
+
+.catalog-product-image {
+    height: 220px;
+    padding: 1.25rem;
+    background: linear-gradient(145deg, #f3eee5, #e8dfd1);
+    object-fit: contain;
+}
+
+.catalog-image-placeholder {
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #657587;
+    background: linear-gradient(145deg, #f3eee5, #e8dfd1);
+}
+
+.catalog-image-placeholder i {
+    font-size: 2.75rem;
+    color: var(--bs-secondary);
+}
+
+.catalog-card .card-title {
+    color: #203b5a;
+}
+
+.catalog-credits {
+    color: #536171;
+}
+
+.catalog-credits a {
+    color: #203b5a;
 }
 
 .instrumento-icono {
@@ -40,7 +118,7 @@ h1, h2, h3, h4, h5, h6,
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(30, 58, 138, 0.12);
+    box-shadow: 0 0.75rem 1.5rem rgba(32, 59, 90, 0.15);
 }
 
 .text-accent {

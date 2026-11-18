@@ -15,6 +15,9 @@ import os
 import pymysql
 pymysql.install_as_MySQLdb()
 from django.contrib.messages import constants as messages
+from django.conf import settings
+from django.conf.urls.static import static
+
 MESSAGE_TAGS = {messages.ERROR: 'danger'}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -135,6 +138,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Email

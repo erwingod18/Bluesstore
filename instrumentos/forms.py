@@ -6,7 +6,7 @@ class InstrumentoForm(forms.ModelForm):
     class Meta:
         model = Instrumento
         fields = ['categoria', 'nombre', 'descripcion', 'precio',
-                'fecha_ingreso', 'disponible']
+                'fecha_ingreso', 'disponible','imagen']
         widgets = {
             'categoria': forms.Select(attrs={'class': 'form-select'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Guitarra eléctrica'}),

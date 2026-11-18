@@ -17,6 +17,10 @@ class Instrumento(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=0)
     fecha_ingreso = models.DateField()
     disponible = models.BooleanField(default=True)
+    imagen = models.ImageField(
+    upload_to='instrumentos/',
+    blank=True,
+    null=True)
 
     def __str__(self):
         return self.nombre
